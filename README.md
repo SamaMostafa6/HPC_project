@@ -2,13 +2,14 @@
 "Hybrid MPI + OpenMP implementation and performance analysis of large-scale matrix multiplication for N=2000, 4000, and 8000."
 
 #----------------------------------
+
 High Performance Computing - Matrix Multiplication
 This project implements parallel matrix multiplication using OpenMP, MPI, and a Hybrid approach.  
 
-Project Goals
+Project Goals:
 1.Implement sequential baseline multiplication.  
 
-20Develop parallel versions using OpenMP (Shared Memory) and MPI (Distributed Memory).  
+2.Develop parallel versions using OpenMP (Shared Memory) and MPI (Distributed Memory).  
 
 3.Analyze scalability and numerical accuracy for large matrices (up to 8000x8000).  
 
