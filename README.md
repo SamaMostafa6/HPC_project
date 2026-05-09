@@ -1,39 +1,240 @@
-emhance this read me file 
-# HPC_project
-"Hybrid MPI + OpenMP implementation and performance analysis of large-scale matrix multiplication for N=2000, 4000, and 8000."
+# HPC Project — Parallel Matrix Multiplication using MPI + OpenMP
 
-#----------------------------------
+## Overview
+This project presents a **High Performance Computing (HPC)** implementation of large-scale matrix multiplication using:
 
-High Performance Computing - Matrix Multiplication
-This project implements parallel matrix multiplication using OpenMP, MPI, and a Hybrid approach.  
+- **Sequential Programming**
+- **OpenMP (Shared Memory Parallelism)**
+- **MPI (Distributed Memory Parallelism)**
+- **Hybrid MPI + OpenMP Parallelism**
 
-Project Goals:
-1.Implement sequential baseline multiplication.  
+The project evaluates and compares the performance, scalability, and numerical correctness of each approach for large matrices of sizes:
 
-2.Develop parallel versions using OpenMP (Shared Memory) and MPI (Distributed Memory).  
+- **N = 2000**
+- **N = 4000**
+- **N = 8000**
 
-3.Analyze scalability and numerical accuracy for large matrices (up to 8000x8000).  
+---
 
-How to Compile
-Use g++ for OpenMP and mpic++ for MPI-based versions:
+# Project Objectives
 
-Sequential: g++ -O3 -o sequential_version2 sequential_version.cpp
+The main objectives of this project are:
 
-OpenMP: g++ -O3 -fopenmp openmp_version.cpp -o openmp_version.exe
+1. Implement a **sequential baseline** for matrix multiplication.
+2. Develop a parallel implementation using:
+   - **OpenMP** for multi-threaded shared-memory execution.
+   - **MPI** for distributed-memory execution across processes.
+   - **Hybrid MPI + OpenMP** combining both paradigms.
+3. Measure and analyze:
+   - Execution time
+   - Scalability
+   - Speedup
+   - Numerical accuracy
+4. Compare the efficiency of each approach for large-scale computations.
 
-MPI: g++ mpi_version.cpp -o mpi_version.exe `
--I"C:\Program Files (x86)\Microsoft SDKs\MPI\Include" `
--L"C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64" `
+---
+
+# Technologies Used
+
+- **C++**
+- **OpenMP**
+- **MPI (MS-MPI / OpenMPI compatible)**
+- **High Performance Computing Concepts**
+
+---
+
+# Matrix Multiplication Formula
+
+```math
+C_{ij} = \sum_{k=1}^{N} A_{ik}B_{kj}
+```
+
+Where:
+
+- `A` and `B` are input matrices
+- `C` is the resulting matrix
+- `N` is the matrix dimension
+
+---
+
+# Project Structure
+
+```bash
+HPC_project/
+│
+├── sequential_version.cpp
+├── openmp_version.cpp
+├── mpi_version.cpp
+├── hybrid_version.cpp
+│
+├── README.md
+└── results/
+```
+
+---
+
+# Compilation Instructions
+
+## 1. Sequential Version
+
+Compile using:
+
+```bash
+g++ -O3 sequential_version.cpp -o sequential_run
+```
+
+---
+
+## 2. OpenMP Version
+
+Compile using:
+
+```bash
+g++ -O3 -fopenmp openmp_version.cpp -o openmp_run
+```
+
+---
+
+## 3. MPI Version
+
+### Linux / OpenMPI
+
+```bash
+mpic++ -O3 mpi_version.cpp -o mpi_run
+```
+
+### Windows (MS-MPI)
+
+```bash
+g++ mpi_version.cpp -o mpi_run.exe ^
+-I"C:\Program Files (x86)\Microsoft SDKs\MPI\Include" ^
+-L"C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64" ^
 -lmsmpi
+```
 
-Hybrid: g++ -O3 -fopenmp hybird_version.cpp -o hybrid_mm.exe -I "C:\Program Files (x86)\Microsoft SDKs\MPI\Include" -L "C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64" -lmsmpi
-$env:OMP_NUM_THREADS=4 //to tell the openmp the threads number
+---
 
-How to Run
-Sequential: ./sequential_run 8000
+## 4. Hybrid MPI + OpenMP Version
 
-OpenMP (16 threads): export OMP_NUM_THREADS=16 && ./openmp_run 8000
+### Linux / OpenMPI
 
-MPI (8 processes): mpirun -np 8 ./mpi_run 8000
+```bash
+mpic++ -O3 -fopenmp hybrid_version.cpp -o hybrid_run
+```
 
-Hybrid (4 procs x 4 threads): mpirun -np 4 ./hybrid_run 8000 4
+### Windows (MS-MPI)
+
+```bash
+g++ -O3 -fopenmp hybrid_version.cpp -o hybrid_run.exe ^
+-I"C:\Program Files (x86)\Microsoft SDKs\MPI\Include" ^
+-L"C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64" ^
+-lmsmpi
+```
+
+---
+
+# Running the Programs
+
+## Sequential Execution
+
+```bash
+./sequential_run 8000
+```
+
+---
+
+## OpenMP Execution
+
+Set the number of threads first.
+
+### Linux/macOS
+
+```bash
+export OMP_NUM_THREADS=16
+./openmp_run 8000
+```
+
+### Windows PowerShell
+
+```powershell
+$env:OMP_NUM_THREADS=16
+.\openmp_run.exe 8000
+```
+
+---
+
+## MPI Execution
+
+Run using 8 MPI processes:
+
+```bash
+mpirun -np 8 ./mpi_run 8000
+```
+
+---
+
+## Hybrid MPI + OpenMP Execution
+
+Example: **4 MPI processes × 4 OpenMP threads**
+
+### Linux/macOS
+
+```bash
+export OMP_NUM_THREADS=4
+mpirun -np 4 ./hybrid_run 8000
+```
+
+### Windows PowerShell
+
+```powershell
+$env:OMP_NUM_THREADS=4
+mpirun -np 4 .\hybrid_run.exe 8000
+```
+
+---
+
+# Performance Metrics
+
+The following metrics are evaluated:
+
+- Execution Time
+- Parallel Speedup
+- Efficiency
+- Scalability
+- CPU Utilization
+- Numerical Accuracy
+
+---
+
+# Parallel Programming Models
+
+## OpenMP
+OpenMP uses **multi-threading** for shared-memory systems where threads run concurrently on multiple CPU cores.
+
+## MPI
+MPI distributes computations across multiple processes, enabling execution on distributed-memory systems and clusters.
+
+## Hybrid MPI + OpenMP
+The hybrid model combines:
+- MPI between nodes/processes
+- OpenMP within each process
+
+This approach improves scalability and resource utilization for large HPC workloads.
+
+---
+
+# Expected Results
+
+The hybrid implementation is expected to provide:
+
+- Better scalability for very large matrices
+- Reduced execution time
+- Improved CPU utilization
+- Higher performance compared to purely sequential execution
+
+---
+
+# Authors
+
+High Performance Computing Course Project  
+Hybrid Matrix Multiplication using MPI + OpenMP
