@@ -1,4 +1,10 @@
 # HPC Project — Parallel Matrix Multiplication using MPI + OpenMP
+# Team Members
+
+- @SamaMostafa6
+- @
+- @
+  
 
 ## Overview
 This project presents a **High Performance Computing (HPC)** implementation of large-scale matrix multiplication using:
