@@ -1,9 +1,4 @@
 # HPC Project — Parallel Matrix Multiplication using MPI + OpenMP
-# Team Members
-
-- @SamaMostafa6
-- @
-- @
   
 
 ## Overview
